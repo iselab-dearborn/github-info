@@ -24,7 +24,11 @@ npm start
 
 ## Screenshot
 
-<img src="https://user-images.githubusercontent.com/114015/101994344-c6e7c500-3c8f-11eb-8585-b4472d3f960b.png" width="500px"/>
+<div >
+    <kbd>
+        <img src="https://user-images.githubusercontent.com/114015/101994344-c6e7c500-3c8f-11eb-8585-b4472d3f960b.png"/>
+<br/><br/>
+</div>
 
 ## Questions or Suggestions
 
