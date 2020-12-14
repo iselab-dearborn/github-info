@@ -22,6 +22,25 @@ To run this project, run the following command:
 npm start
 ```
 
+## Collected Information
+
+For now, this tool is able to collect the following information:
+
+ - id
+ - full_name
+ - owner_name
+ - repo_name
+ - html_url
+ - created_at
+ - updated_at
+ - repo_duration_in_days
+ - repo_duration_in_months
+ - size_in_kb
+ - stars
+ - open_issues
+ - tags
+ - contributors
+
 ## Screenshot
 
 <div >
