@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/114015/101994247-ff3ad380-3c8e-11eb-8033-2298e93ffd4a.png" width="500px"/>
+<img src="https://user-images.githubusercontent.com/114015/101994247-ff3ad380-3c8e-11eb-8033-2298e93ffd4a.png" width="450px"/>
 
 Collect information about repositories from GitHub's API
 
@@ -40,6 +40,8 @@ For now, this tool is able to collect the following information:
  - open_issues
  - tags
  - contributors
+ 
+[Click here](https://github.com/iselab-dearborn/github-info/blob/main/example.csv) if you would like to see an output example.
 
 ## Screenshot
 
