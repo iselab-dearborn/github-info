@@ -2,42 +2,68 @@
 <html lang="en">
 
 <head>
-    <%- include('includes/head', {room: null}); %>
+    <%- include('includes/head'); %>
 </head>
 
 <body>
 
-
+    <%- include('includes/navbar'); %>
 
     <div class="container-fluid">
-        <div class="row mt-2">
-            <div class="col-3">
 
-            </div>
-            <div class="col-6">
-                <img class="mb-3" src="images/logo.png" style="width: 100%;"/>
-                <div class="card">
-                    <div class="card-body pb-0">
-                        <form id="form-generate" method="post" action="generate">
-                            <div class="form-group">
-                                <label for="key" class="form-label">GitHub Key</label>
-                                <input type="text" class="form-control" id="key" name="key">
-                                <small>By default, you have 60 requests per hour. If you want to 5000 requests per hour, <a target="_blank" href="https://github.com/settings/tokens">click here</a> to create a key</small>
-                            </p>
-                            <div class="form-group">
-                                <label for="urls" class="form-label">URLs</label>
-                                <textarea class="form-control" id="urls" rows="8" name="urls" required autofocus></textarea>
-                                <small>One URL per line. <a id="example" href="#">Click here</a> to see an example</small>
-                            </div>
-                            <hr/>
-                            <button class="btn btn-primary" type="submit">Generate</button>
+        <div class="card card-shadow">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col mt-1 font-weight-bold">Projects</div>
+                    <div class="col-auto">
+                        <form method="POST" action="/projects/export">
+                            <a class="btn btn-sm btn-outline-secondary pt-0 pb-0 btn-submit" href="#">
+                                Export
+                            </a>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <ul class="list-group list-group-flush">
+                <% if (projects.length == 0) { %>
+                    <li class="list-group-item">
+                        No Projects
+                    </li>
+                <% } else { %>
 
-            </div>
+                    <% projects.forEach(function(project, i){ %>
+
+                        <li class="project list-group-item d-flex justify-content-between align-items-center" data:id="${project.id}">
+                            <span>
+                                <span th:text="${i.count}" class="mr-2">#<%= i+1 %></span>
+                                <a th:href="@{|/projects/${project.id}|}"><%= project.url %></a>
+                            </span>
+                            <div>
+                                <div class="d-inline-block small text-truncate" style="max-width: 150px;">
+                                    <span title="<%= project.status_message %>"><%= project.status_message %></span>
+                                </div>
+                                <div class="d-inline-block small">
+                                    <%if (project.status == 1) {%>  <span>Pending</span>  <%}%>
+                                    <%if (project.status == 2) {%>  <span class="text-success">Done</span>  <%}%>
+                                    <%if (project.status == 3) {%>  <span class="text-danger">Error</span>  <%}%>
+                                </div>
+                                <div class="d-inline-block ml-2">
+                                    <form method="POST" action="/projects/delete/<%= project.id %>">
+                                        <a class="btn btn-sm btn-outline-danger pt-0 pb-0 btn-submit" href="#">
+                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                            </svg>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+
+                    <% }); %>
+
+                <% } %>
+
+            </ul>
         </div>
 
 

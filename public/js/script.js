@@ -1,5 +1,9 @@
 $(function () {
 
+    $(".btn-submit").click(function(){
+        $(this).parent().submit();
+    });
+
     $('#form-generate').validate({
         errorElement: 'small',
         errorClass: 'error text-danger text-small',
