@@ -4,7 +4,9 @@ const gitUrlParse = require('git-url-parse');
 
 class ApiUtils {
 
-    static getRepo(api, project) {
+    static async getRepo(api, project) {
+
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         return api.request('GET /repos/{owner}/{repo}', {
             owner: project.owner,
@@ -12,7 +14,9 @@ class ApiUtils {
         });
     }
 
-    static getTags(api, project) {
+    static async getTags(api, project) {
+
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         return api.paginate('GET /repos/{owner}/{repo}/tags', {
             owner: project.owner,
@@ -20,7 +24,9 @@ class ApiUtils {
         });
     }
 
-    static getContributors(api, project) {
+    static async getContributors(api, project) {
+
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         return api.paginate('GET /repos/{owner}/{repo}/contributors', {
             owner: project.owner,
@@ -40,6 +46,8 @@ class ApiUtils {
 
             ApiUtils.getRepo(api, project).then(response => {
 
+                console.log("url: ", url);
+
                 const info = response.data;
 
                 Promise.all([
@@ -56,6 +64,7 @@ class ApiUtils {
                         'owner_name': info.owner.login,
                         'repo_name': info.name,
                         'html_url': info.html_url,
+                        'url': url,
                         'created_at': info.created_at,
                         'updated_at': info.updated_at,
                         'repo_duration_in_days': dayjs().diff(dayjs(info.created_at), 'days'),
@@ -68,20 +77,24 @@ class ApiUtils {
                         'error_message': ''
                     });
                 }).catch(errors => {
+
                     resolve({
                         'id': undefined,
                         'full_name': project.owner + '/' + project.repo,
                         'owner_name': project.owner,
                         'repo_name': project.repo,
+                        'url': url,
                         'error_message': errors
                     });
                 });
             }).catch(errors => {
+
                 resolve({
                     'id': undefined,
                     'full_name': `${project.owner}/${project.repo}`,
                     'owner_name': project.owner,
                     'repo_name': project.repo,
+                    'url': url,
                     'error_message': errors
                 });
             });
