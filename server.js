@@ -107,5 +107,5 @@ app.listen(PORT, () => {
 
     setInterval(function() {
         ApiUtils.run(db);
-    }, 0.1 * min);
+    }, 1 * min);
 });
