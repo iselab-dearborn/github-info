@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('includes/head'); %>
+</head>
+
+<body>
+
+    <%- include('includes/navbar'); %>
+
+    <div id="sb-layout">
+        <div id="sb-sidebar">
+            <%- include('includes/sidebar', {menu: 'settings'}); %>
+        </div>
+        <div id="sb-content">
+            <main>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Settings</h3>
+                        </div>
+                        <div class="col-auto">
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="card shadow">
+                        <div class="card-body pb-0" >
+                            <form id="form-settings" method="POST" action="/settings/save">
+                                <div class="form-group">
+                                    <label for="github_api_key" class="form-label">GitHub Key</label>
+                                    <input type="text" class="form-control" id="github_api_key" name="github_api_key" value="<%= settings.github_api_key %>" autofocus>
+                                    <small>By default, you have 60 requests per hour. If you want to 5000 requests per hour, <a target="_blank" href="https://github.com/settings/tokens">click here</a> to create a key</small>
+                                </p>
+                                <div class="form-group">
+                                    <label for="take" class="form-label">Take</label>
+                                    <input type="text" class="form-control" id="take" name="take" value="<%= settings.take %>">
+                                    <small>The number of projects that the tool is going to fetch the data per turn</small>
+                                </p>
+                                <br/>
+                            </form>
+                            <h5>Danger Zone</h5>
+                            <div class="card border-danger">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="mb-0">Remove all projects</p>
+                                            <small>Once you remove them, there is no going back. Please be certain.</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <form method="POST" action="/projects/remove-all" id="form-remove-all">
+                                                <button type="button" class="btn btn-danger btn-sm btn-submit" data-target="#form-remove-all">Remove</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <button type="button" class="btn btn-primary btn-submit" data-target="#form-settings">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include('includes/footer'); %>
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<%
+
+    let active = {};
+
+    active[menu] = "active"
+%>
+
+<nav class="sb-sidenav sb-sidenav-dark">
+    <div class="sb-sidenav-menu">
+        <div class="nav">
+            <div class="sb-sidenav-menu-heading">Menu</div>
+            <a class="nav-link <%= active['home'] %>" href="/">
+                <div class="sb-nav-link-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                Home
+            </a>
+            <a class="nav-link <%= active['projects'] %>" href="/projects">
+                <div class="sb-nav-link-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                Projects
+            </a>
+            <a class="nav-link <%= active['export'] %>" href="/export">
+                <div class="sb-nav-link-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                Export
+            </a>
+            <a class="nav-link <%= active['settings'] %>" href="/settings">
+                <div class="sb-nav-link-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                Settings
+            </a>
+        </div>
+    </div>
+</nav>

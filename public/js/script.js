@@ -1,7 +1,16 @@
 $(function () {
 
-    $(".btn-submit").click(function(){
+    $(".btn-submit-parent").click(function(){
         $(this).parent().submit();
+    });
+
+    $(".btn-submit").click(function(){
+        $($(this).data("target")).submit();
+    });
+
+    $("#sidebarToggle").on("click", function(e) {
+        e.preventDefault();
+        $("body").toggleClass("sb-sidenav-toggled");
     });
 
     $('#form-generate').validate({

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('includes/head'); %>
+</head>
+
+<body>
+
+    <%- include('includes/navbar'); %>
+
+    <div id="sb-layout">
+        <div id="sb-sidebar">
+            <%- include('includes/sidebar', {menu: 'export'}); %>
+        </div>
+        <div id="sb-content">
+            <main>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Export</h3>
+                        </div>
+                        <div class="col-auto">
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <form method="post" action="/projects/export">
+                                <button class="btn btn-primary" type="submit">Export as CSV</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('includes/footer'); %>
+
+</body>
+
+</html>

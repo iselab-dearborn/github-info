@@ -9,64 +9,118 @@
 
     <%- include('includes/navbar'); %>
 
-    <div class="container-fluid">
+    <div id="sb-layout">
+        <div id="sb-sidebar">
+            <%- include('includes/sidebar', {menu: 'home'}); %>
+        </div>
+        <div id="sb-content">
+            <main>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Home</h3>
+                        </div>
+                        <div class="col-auto">
 
-        <div class="card card-shadow">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col mt-1 font-weight-bold">Projects</div>
-                    <div class="col-auto">
-                        <form method="POST" action="/projects/export">
-                            <a class="btn btn-sm btn-outline-secondary pt-0 pb-0 btn-submit" href="#">
-                                Export
-                            </a>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <ul class="list-group list-group-flush">
-                <% if (projects.length == 0) { %>
-                    <li class="list-group-item">
-                        No Projects
-                    </li>
-                <% } else { %>
-
-                    <% projects.forEach(function(project, i){ %>
-
-                        <li class="project list-group-item d-flex justify-content-between align-items-center" data:id="${project.id}">
-                            <span>
-                                <span th:text="${i.count}" class="mr-2">#<%= i+1 %></span>
-                                <a th:href="@{|/projects/${project.id}|}"><%= project.url %></a>
-                            </span>
-                            <div>
-                                <div class="d-inline-block small text-truncate" style="max-width: 150px;">
-                                    <span title="<%= project.status_message %>"><%= project.status_message %></span>
-                                </div>
-                                <div class="d-inline-block small">
-                                    <%if (project.status == 1) {%>  <span>Pending</span>  <%}%>
-                                    <%if (project.status == 2) {%>  <span class="text-success">Done</span>  <%}%>
-                                    <%if (project.status == 3) {%>  <span class="text-danger">Error</span>  <%}%>
-                                </div>
-                                <div class="d-inline-block ml-2">
-                                    <form method="POST" action="/projects/delete/<%= project.id %>">
-                                        <a class="btn btn-sm btn-outline-danger pt-0 pb-0 btn-submit" href="#">
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                                            </svg>
-                                        </a>
-                                    </form>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-lg-4 mb-3">
+                            <div class="card border-left-warning shadow">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Pending
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= stats.pending %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="far fa-clock fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-
-                    <% }); %>
-
-                <% } %>
-
-            </ul>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <div class="card border-left-success shadow">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Done
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= stats.done %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="far fa-check fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <div class="card border-left-danger shadow">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                Error</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= stats.error %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="far fa-times fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 mb-3">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    Rate Limits
+                                </div>
+                                <div class="card-body mt-2 mb-2">
+                                    <div class="list-group ">
+                                        <div class="list-group-item">
+                                            <p class="font-weight-bold mb-0">The maximum number of requests you're permitted to make per hour</p>
+                                            <span class="small"><%= rates.limit %></span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <p class="font-weight-bold mb-0">The number of requests remaining in the current rate limit window</p>
+                                            <span class="small"><%= rates.remaining %></span>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <p class="font-weight-bold mb-0">The time at which the current rate limit window resets</p>
+                                            <span class="small"><%= new Date(rates.reset * 1000)  %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    Progress
+                                </div>
+                                <div class="card-body">
+                                    <div class="circle c100 p<%= stats.progress %> huge center ">
+                                        <span><%= stats.progress %>%</span>
+                                        <div class="slice">
+                                            <div class="bar"></div>
+                                            <div class="fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
-
-
     </div>
 
     <%- include('includes/footer'); %>

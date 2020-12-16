@@ -13,58 +13,123 @@ const STATUS = Object.freeze({
 class DBUtils {
 
     constructor() {
+
         this.db = low(adapter);
+
         this.db.defaults({
-                projects: []
-            }).write()
+            projects: [],
+            settings: {
+                github_api_key: "",
+                take : 50,
+            }
+        }).write()
     }
 
-    findAll() {
+    static paginate(array, page_size, page_number) {
+        return array.slice((page_number - 1) * page_size, page_number * page_size);
+    }
 
-        return this.db.get('projects').value();
+    findStatistics() {
+
+        const projects = this.db.get('projects').value();
+
+        const stats = {
+            pending: 0,
+            done: 0,
+            error: 0,
+            progress: 0
+        }
+
+        projects.forEach(project =>{
+
+            if (project.status == 1) {
+                stats.pending++;
+            }else if (project.status == 2) {
+                stats.done++;
+            }else if (project.status == 3) {
+                stats.error++;
+            }
+
+            if (project.status == 2 || project.status == 3) {
+                stats.progress++;
+            }
+        });
+
+        stats.progress = ((stats.progress / projects.length)*100).toFixed(0)
+
+        return stats;
+    }
+
+    findAll(search = '', page = 1, pageSize = 10) {
+
+        const projects = this.db.get('projects')
+            .filter((project) => {
+
+                if (search) {
+                    return project.url.toLowerCase().includes(search.toLowerCase());
+                }
+
+                return true
+            })
+            .value();
+
+        return DBUtils.paginate(projects, pageSize, page);
     }
 
     findByUrl(url) {
 
         return this.db.get('projects')
-            .find({ url: url })
+            .find({url: url})
             .value()
     }
 
-    findAllPending(){
+    findAllPending() {
+
+        const settings = this.findAllSettings();
 
         let projects = this.db.get('projects')
-            .filter({status: STATUS.PENDING })
-            .take(40)
+            .filter({status: STATUS.PENDING})
+            .take(settings.take || 50)
             .value()
 
-        if (projects.length == 0){
-
-            projects = this.db.get('projects')
-                .filter({status_code: 403 })
-                .take(40)
-                .value()
-        }
-
         return projects;
+    }
+
+    findAllSettings(){
+        return this.db.get('settings')
+            .value()
+    }
+
+    saveSettings(data){
+
+        return this.db.get('settings')
+            .assign(data)
+            .write()
+    }
+
+    removeAll() {
+
+        return this.db.get('projects')
+            .remove()
+            .write()
     }
 
     removeById(id) {
 
         return this.db.get('projects')
-            .remove({id: id})
+            .remove({ id: id })
             .write()
     }
 
-    updateById(id, data){
+    updateById(id, data) {
 
         this.db.get('projects')
-            .find({id: id})
+            .find({ id: id })
             .assign(data)
             .write()
     }
 
-    save(apiKey, url) {
+    save(url) {
 
         const project = this.findByUrl(url);
 
@@ -73,7 +138,7 @@ class DBUtils {
             this.db.get('projects')
                 .push({
                     id: uuid.v4(),
-                    api_key: apiKey,
+                    date: new Date(),
                     url: url,
                     github_id: '',
                     full_name: '',
@@ -82,17 +147,16 @@ class DBUtils {
                     html_url: '',
                     created_at: '',
                     updated_at: '',
-                    repo_duration_in_days: '',
-                    repo_duration_in_months: '',
                     size_in_kb: '',
                     stars: '',
                     open_issues: '',
                     tags_count: "",
                     contributors_count: "",
+                    commits_last_two_years_count: "",
                     language: '',
                     status: STATUS.PENDING,
                     status_code: '',
-                    status_message: ""
+                    status_message: "Pending"
                 }).write()
         }
     }

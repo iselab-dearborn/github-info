@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('includes/head'); %>
+</head>
+
+<body>
+
+    <%- include('includes/navbar'); %>
+
+    <div id="sb-layout">
+        <div id="sb-sidebar">
+            <%- include('includes/sidebar', {menu: 'projects'}); %>
+        </div>
+        <div id="sb-content">
+            <main>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Add Projects</h3>
+                        </div>
+                        <div class="col-auto">
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <form id="form-generate" method="post" action="/save">
+                                <div class="form-group">
+                                    <label for="urls" class="form-label">URLs</label>
+                                    <textarea class="form-control" id="urls" rows="8" name="urls" required autofocus></textarea>
+                                    <small>One URL per line. <a id="example" href="#">Click here</a> to see an example</small>
+                                </div>
+                                <hr/>
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <a class="btn btn-outline-secondary" href="/projects">Cancel</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('includes/footer'); %>
+
+</body>
+
+</html>
