@@ -65,7 +65,7 @@ routes.get('/projects', [
     const previousPage = page == 1 ? 1 : page - 1;
 
     res.render('projects.ejs',{
-        projects: db.findAll(search, page, pageSize),
+        projects: db.findAllPaginate(search, page, pageSize),
         search: search,
         page: page,
         pageSize: pageSize,

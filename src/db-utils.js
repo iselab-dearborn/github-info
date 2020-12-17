@@ -60,7 +60,11 @@ class DBUtils {
         return stats;
     }
 
-    findAll(search = '', page = 1, pageSize = 10) {
+    findAll(){
+        return this.db.get('projects').value();
+    }
+
+    findAllPaginate(search = '', page = 1, pageSize = 10) {
 
         const projects = this.db.get('projects')
             .filter((project) => {
