@@ -2,7 +2,7 @@ const uuid = require('node-uuid');
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
-const adapter = new FileSync('db.json')
+const adapter = new FileSync('data/db.json')
 
 const STATUS = Object.freeze({
     "PENDING": 1,
